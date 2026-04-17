@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Fri Apr 17 12:34:37 2026 as: nmap -sn -oX nmap-hosts.xml -vvv portchecker.co -->
+<nmaprun scanner="nmap" args="nmap -sn -oX nmap-hosts.xml -vvv portchecker.co" start="1776440077" startstr="Fri Apr 17 12:34:37 2026" version="7.94SVN" xmloutputversion="1.05">
+<verbose level="3"/>
+<debugging level="0"/>
+<taskbegin task="Ping Scan" time="1776440077"/>
+<taskend task="Ping Scan" time="1776440078" extrainfo="1 total hosts"/>
+<taskbegin task="Parallel DNS resolution of 1 host." time="1776440078"/>
+<taskend task="Parallel DNS resolution of 1 host." time="1776440078"/>
+<host><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="45.33.50.110" addrtype="ipv4"/>
+<hostnames>
+<hostname name="portchecker.co" type="user"/>
+<hostname name="li1000-110.members.linode.com" type="PTR"/>
+</hostnames>
+<times srtt="309179" rttvar="309179" to="1545895"/>
+</host>
+<runstats><finished time="1776440078" timestr="Fri Apr 17 12:34:38 2026" summary="Nmap done at Fri Apr 17 12:34:38 2026; 1 IP address (1 host up) scanned in 0.87 seconds" elapsed="0.87" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>
