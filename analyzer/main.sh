@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # discovery de hosts -> nmap-hosts.xml
-nmap -sn 192.168.50.0/24 -oX nmap-hosts.xml -vvv
+nmap -sn 192.168.50.0/24 -oX ../files/nmap-hosts.xml -vvv
 
 # saca todos los hosts con status "up" -> up-hosts.txt
-xmlstarlet sel -t -m "//host[status/@state='up']/address" -v "@addr" -n nmap-hosts.xml > up-hosts.txt
+xmlstarlet sel -t -m "//host[status/@state='up']/address" -v "@addr" -n ../files/nmap-hosts.xml > ../files/up-hosts.txt
 
 # escaneo los puertos de los hosts -> ports.xml
-sudo nmap -Pn -sSV --top-ports 100 -iL up-hosts.txt -oX ports.xml -vvv
+sudo nmap -Pn -sSV --top-ports 100 -iL ../files/up-hosts.txt -oX ../files/ports.xml -vvv
 
 python3 xml-analysis.py
 
