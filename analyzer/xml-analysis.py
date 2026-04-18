@@ -9,12 +9,12 @@ class Host:
 def make_list(object):
 	if not isinstance(object, list):     # verificar si funciona y en caso de que si, cambiarla en el script
 		object = [object]
-		return object
+	return object
 
 class_hosts = []
 
 # parsea el xml a dict
-with open("ports.xml") as xml:
+with open("../files/ports.xml") as xml:
     xmldict = xmltodict.parse(xml.read())
 
 # accede a nmaprin -> hosts
@@ -22,8 +22,8 @@ hosts = xmldict["nmaprun"]["host"]
 
 # en caso de que no sea una lista la convierte en una
 # sino no se puede iterar 
-if not isinstance(hosts, list):
-    hosts = [hosts]
+
+hosts = make_list(hosts)
 
 for host in hosts:
 	ip = None
@@ -36,8 +36,7 @@ for host in hosts:
 
 	addresses = host["address"]
 	
-	if not isinstance(addresses, list):
-	    addresses = [addresses]
+	addresses = make_list(addresses)
 
 	for addr in addresses:
 		if addr.get("@addrtype") == "ipv4":
@@ -49,8 +48,7 @@ for host in hosts:
 	ports = host.get("ports", {})                                 # podria simplificarse en una sola linea
 	port_list = ports.get("port", [])
 
-	if not isinstance(port_list, list):
-		port_list = [port_list]
+	port_list = make_list(port_list)
 
 	for port in port_list: 
 		if port.get("state", {}).get("@state") == "open":
