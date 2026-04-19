@@ -7,6 +7,8 @@ class Host:
         self.ports = ports
 
 def make_list(object):
+	if object is None:
+		return []
 	if not isinstance(object, list):     # verificar si funciona y en caso de que si, cambiarla en el script
 		object = [object]
 	return object
@@ -45,17 +47,20 @@ for host in hosts:
 		elif addr.get("@addrtype") == "mac":
 			mac = addr.get("@addr")
 
-	ports = host.get("ports", {})                                 # podria simplificarse en una sola linea
+	ports = host.get("ports", {})
 	port_list = ports.get("port", [])
 
 	port_list = make_list(port_list)
 
-	for port in port_list: 
+	for port in port_list:
 		if port.get("state", {}).get("@state") == "open":
 			ports_list.append({
 				"port": port.get("@portid"),
 				"service": port.get("service", {}).get("@name", "unknown")
 			})
+
+	if not ports_list:
+		ports_list = "--"
 	if ip:
 		class_hosts.append(Host(ip, mac, ports_list))
 
