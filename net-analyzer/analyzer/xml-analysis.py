@@ -9,7 +9,7 @@ class Host:
 def make_list(object):
 	if object is None:
 		return []
-	if not isinstance(object, list):     # verificar si funciona y en caso de que si, cambiarla en el script
+	if not isinstance(object, list):
 		object = [object]
 	return object
 
@@ -59,15 +59,88 @@ for host in hosts:
 				"service": port.get("service", {}).get("@name", "unknown")
 			})
 
-	if not ports_list:
-		ports_list = "--"
 	if ip:
 		class_hosts.append(Host(ip, mac, ports_list))
 
-for i in class_hosts:
-	print("IP: ", i.ip)
-	print("MAC: ", i.mac)
-	print("PORTS: ", i.ports)
+# En este punto la lista class_host ya contiene las instancias de Host.
+# El análisis de las mismas debe partir desde ahí.
+
+# 	   	Host
+# 	   IP  (str)
+#  	  MAC  (str)
+# 	PORTS  (list(dict)) 
+
+def report_host(IP: str, PORTS: list):
+	if not PORTS:
+		pass
+		#print(f'''HOST:    {IP}\nPuertos: --\n''')
+	else:
+		print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
+
+
+def analyze_host(IP: str, PORTS: list):
+
+	dangerous_ports = [
+    '21',    # ftp - sin cifrado
+	'22',    # ssh
+    '23',    # telnet - sin cifrado
+	'80',
+    '139',   # netbios - expone recursos de red
+	'443',
+    '445',   # smb - vector común de ataques
+    '111',   # rpcbind - innecesario expuesto
+    '2049',  # nfs - no debería estar público
+    '3389',  # rdp - expuesto a fuerza bruta
+    '6379',  # redis - sin auth por defecto
+    '27017', # mongodb - sin auth por defecto
+	['80', '443']
+	]
+
+	ports_list = []
+	open_ports = []
+
+	for port in PORTS:
+		port: dict
+		ports_list.append(port['port'])
+
+	for dangerous_port in dangerous_ports:
+		if isinstance(dangerous_port, list):
+			if (set(dangerous_port).issubset(ports_list)):
+				open_ports.append(', '.join(map(str, dangerous_port)))
+
+		if dangerous_port in ports_list:
+			open_ports.append(dangerous_port)
+
+	report_host(IP, open_ports)
+
+# ==========================================================================================
+
+for host in class_hosts:
+	analyze_host(host.ip, host.ports)
+
 
 
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

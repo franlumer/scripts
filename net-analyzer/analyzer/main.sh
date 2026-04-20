@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # discovery de hosts -> nmap-hosts.xml
-nmap -sn 192.168.50.0/24 -oX ../data/nmap-hosts.xml -vvv
+nmap -sn 192.168.151.0/24 -oX ../data/nmap-hosts.xml -vvv
 
 # saca todos los hosts con status "up" -> up-hosts.txt
 xmlstarlet sel -t -m "//host[status/@state='up']/address" -v "@addr" -n ../data/nmap-hosts.xml > ../data/up-hosts.txt

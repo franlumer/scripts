@@ -17,10 +17,9 @@ ports = [
     {'port': '139', 'service': 'netbios'},
     {'port': '111', 'service': 'rpcbind'},
     {'port': '2049', 'service': 'nfs'},
-    {'port': '1', 'service': 'uno'},
-    {'port': '2', 'service': 'dos'},
-
 ]
+#
+#ports=[]
 
 dangerous_ports = [
     '21',    # ftp - sin cifrado
@@ -35,7 +34,15 @@ dangerous_ports = [
 	['1', '2']
 ]
 
+
+def report_host(IP: str, PORTS: list):
+    if not PORTS:
+        print("No hay puertos abiertos")
+    else:
+        report = (f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}'''); print(report)
+
 ports_list = []
+open_ports = []
 
 for port in ports:
     port: dict
@@ -44,9 +51,11 @@ for port in ports:
 for dangerous_port in dangerous_ports:
     if isinstance(dangerous_port, list):
         if (set(dangerous_port).issubset(ports_list)):
-            print(f"[!] Puertos {', '.join(map(str, dangerous_port))} abiertos!!")
-
+            open_ports.append(', '.join(map(str, dangerous_port)))
 
     if dangerous_port in ports_list:
-        print(f"[!] Puerto {dangerous_port} abierto!!")
+        open_ports.append(dangerous_port)
 
+
+
+report_host("192.168.100.1", open_ports)
