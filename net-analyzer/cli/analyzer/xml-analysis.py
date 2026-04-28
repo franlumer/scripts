@@ -3,6 +3,13 @@ import sys
 
 REPORT_DIR = sys.argv[1]
 
+dangerous_ports = []
+
+with open('dangerous-ports.txt', 'r') as dports:
+	dports_file = dports.read().splitlines()
+	for port in dports_file:
+		dangerous_ports.append(port)
+
 class Host:
     def __init__(self, ip, mac, ports):
         self.ip = ip
@@ -30,6 +37,7 @@ hosts = xmldict["nmaprun"].get("host")
 
 hosts = make_list(hosts)
 
+seen = set()
 for host in hosts:
 	ip = None
 	mac = "--"
@@ -62,7 +70,7 @@ for host in hosts:
 				"service": port.get("service", {}).get("@name", "unknown")
 			})
 
-	if ip:
+	if ip and ip not in seen:
 		class_hosts.append(Host(ip, mac, ports_list))
 
 # En este punto la lista class_host ya contiene las instancias de Host.
@@ -74,21 +82,11 @@ for host in hosts:
 # 	PORTS  (list(dict)) 
 
 def report_host(IP: str, PORTS: list):
-	if not PORTS:
-		pass
-		#print(f'''HOST:    {IP}\nPuertos: --\n''')
-	else:
+	if PORTS:
 		print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
 
 
 def analyze_host(IP: str, PORTS: list):
-
-	dangerous_ports = []
-
-	with open('dangerous-ports.txt', 'r') as dports:
-		dports_file = dports.read().splitlines()
-		for port in dports_file:
-			dangerous_ports.append(port)
 
 	port_service_map = {p['port']: p.get('service', 'unknown') for p in PORTS}
 	ports_list = list(port_service_map.keys())

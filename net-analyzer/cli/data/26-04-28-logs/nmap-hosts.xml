@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Tue Apr 28 11:05:42 2026 as: nmap -sn -oX /home/luciano/github/scripts/net-analyzer/cli/analyzer/../data/26-04-28-logs/nmap-hosts.xml 192.168.155-160.1/24 -->
+<nmaprun scanner="nmap" args="nmap -sn -oX /home/luciano/github/scripts/net-analyzer/cli/analyzer/../data/26-04-28-logs/nmap-hosts.xml 192.168.155-160.1/24" start="1777385142" startstr="Tue Apr 28 11:05:42 2026" version="7.98" xmloutputversion="1.05">
+<verbose level="0"/>
+<debugging level="0"/>
+<taskprogress task="Ping Scan" time="1777385424" percent="45.90" remaining="333" etc="1777385756"/>

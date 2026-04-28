@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Tue Apr 28 11:12:45 2026 as: nmap -sn -oX /home/luciano/github/scripts/net-analyzer/cli/analyzer/../data/28-04-26-logs/nmap-hosts.xml 192.168.155-160.1/24 -->
+<nmaprun scanner="nmap" args="nmap -sn -oX /home/luciano/github/scripts/net-analyzer/cli/analyzer/../data/28-04-26-logs/nmap-hosts.xml 192.168.155-160.1/24" start="1777385565" startstr="Tue Apr 28 11:12:45 2026" version="7.98" xmloutputversion="1.05">
+<verbose level="0"/>
+<debugging level="0"/>
+<taskprogress task="Ping Scan" time="1777385665" percent="16.28" remaining="515" etc="1777386179"/>
+<taskprogress task="Ping Scan" time="1777385733" percent="27.34" remaining="447" etc="1777386179"/>
+<taskprogress task="Ping Scan" time="1777385762" percent="31.90" remaining="421" etc="1777386183"/>
+<taskprogress task="Ping Scan" time="1777386173" percent="98.63" remaining="9" etc="1777386181"/>
+<runstats><finished time="1777386183" timestr="Tue Apr 28 11:23:03 2026" summary="Nmap done at Tue Apr 28 11:23:03 2026; 1536 IP addresses (0 hosts up) scanned in 617.49 seconds" elapsed="617.49" exit="success"/><hosts up="0" down="1536" total="1536"/>
+</runstats>
+</nmaprun>
