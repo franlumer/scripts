@@ -12,6 +12,33 @@ mkdir -p $REPORT_DIR
 
 # máquina no responde ping
 
+function parse () {
+    #xmlstarlet sel -t -m "//host[status/@state='up']/address" -v "@addr" -n $REPORT_DIR/nmap-hosts.xml > $REPORT_DIR/up-hosts.txt
+    xmlstarlet sel -t -m "//host[status/@state='up']" -v "address[@addrtype='ipv4']/@addr" -n $REPORT_DIR/nmap-hosts.xml > $REPORT_DIR/up-hosts.txt
+
+    # escaneo los puertos de los hosts -> ports.xml
+    sudo nmap -Pn -sSV --top-ports 100 -iL $REPORT_DIR/up-hosts.txt -oX $REPORT_DIR/nmap-ports.xml
+
+    python3 xml-analysis.py $REPORT_DIR >> $REPORT_DIR/"$DATE|$TIME.log"
+}
+
+if [[ $1 ]]; then
+    nmap -sn "$1" -oX $REPORT_DIR/nmap-hosts.xml;
+    parse
+else
+    for start in $(seq 0 5 255); 
+
+    do
+        end=$((start+5))
+        # discovery de hosts -> nmap-hosts.xml
+        nmap -sn 192.168.$start-$end.1/24 -oX $REPORT_DIR/nmap-hosts.xml
+        parse
+    done
+fi
+
+
+
+
 for start in $(seq 150 5 155); 
 
 do
