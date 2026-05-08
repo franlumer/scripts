@@ -11,10 +11,11 @@ with open('dangerous-ports.txt', 'r') as dports:
 		dangerous_ports.append(port)
 
 class Host:
-    def __init__(self, ip, mac, ports):
-        self.ip = ip
-        self.mac = mac
-        self.ports = ports
+	def __init__(self, ip, mac, ports):
+		self.ip = ip
+		self.mac = mac
+		self.ports = ports
+		
 
 def make_list(object):
 	if object is None:
@@ -44,8 +45,8 @@ for host in hosts:
 	ports_list = []
 
 	# solo analiza si el @state es up (host activo)
-	if host["status"].get("@state") != "up":
-		continue
+#	if host["status"].get("@state") != "up":
+#		continue
 
 	addresses = host["address"]
 	
@@ -60,14 +61,14 @@ for host in hosts:
 
 	ports = host.get("ports", {})
 	port_list = ports.get("port", [])
-
 	port_list = make_list(port_list)
 
 	for port in port_list:
 		if port.get("state", {}).get("@state") == "open":
 			ports_list.append({
 				"port": port.get("@portid"),
-				"service": port.get("service", {}).get("@name", "unknown")
+				"service": port.get("service", {}).get("@name", "unknown"),
+				"status": port.get("state", {}).get("@state")
 			})
 
 	if ip and ip not in seen:
@@ -86,29 +87,44 @@ def report_host(IP: str, PORTS: list):
 		print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
 
 
-def analyze_host(IP: str, PORTS: list):
+#def analyze_host(IP: str, PORTS: list):
 
-	port_service_map = {p['port']: p.get('service', 'unknown') for p in PORTS}
-	ports_list = list(port_service_map.keys())
+#	port_service_map = {p['port']: p.get('service', 'unknown') for p in PORTS}
+#	ports_list = list(port_service_map.keys())
+
+#	open_ports = []
+
+#	for dangerous_port in dangerous_ports:
+#		if isinstance(dangerous_port, list):
+#			if set(dangerous_port).issubset(ports_list):
+#				entry = ', '.join(
+#					f"{p}/{port_service_map.get(p, 'unknown')}"
+#					for p in dangerous_port
+#				)
+#				open_ports.append(entry)
+
+#		elif dangerous_port in ports_list:
+#			service = port_service_map.get(dangerous_port, 'unknown')
+#			open_ports.append(f"{dangerous_port}/{service}")
+
+#	report_host(IP, open_ports)
+
+
+def analyze_host(IP: str, PORTS: list, STATUS: str):
+
+	port_service_map = {
+		p['port']: p.get('service', 'unknown')
+		for p in PORTS
+	}
 
 	open_ports = []
 
-	for dangerous_port in dangerous_ports:
-		if isinstance(dangerous_port, list):
-			if set(dangerous_port).issubset(ports_list):
-				entry = ', '.join(
-					f"{p}/{port_service_map.get(p, 'unknown')}"
-					for p in dangerous_port
-				)
-				open_ports.append(entry)
-
-		elif dangerous_port in ports_list:
-			service = port_service_map.get(dangerous_port, 'unknown')
-			open_ports.append(f"{dangerous_port}/{service}")
+	for port, service, status in port_service_map.items():
+		open_ports.append(f"{port}/{service}/{status}")
 
 	report_host(IP, open_ports)
 
 # ==========================================================================================
 
 for host in class_hosts:
-	analyze_host(host.ip, host.ports)
+	analyze_host(host.ip, host.ports, host.status)
