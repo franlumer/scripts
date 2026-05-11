@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATE=$(date +%d-%m-%y)
+DATE=$(date +%y-%m-%d)
 TIME=$(date +%H:%M:%S)
 REPORT_DIR=../data/"$DATE-logs"
 mkdir -p $REPORT_DIR
