@@ -76,6 +76,7 @@ for host in hosts:
 			})
 
 	if ip and ip not in seen:
+		seen.add(ip)
 		class_hosts.append(Host(ip, mac, ports_list))
 
 # En este punto la lista class_host ya contiene las instancias de Host.
@@ -90,7 +91,7 @@ def report_host(IP: str, PORTS: list):
 	
 	if PORTS:
 		line = f'HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n'
-		print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
+		#print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
 		with open(f"{REPORT_LOG}", "a") as log:
 			log.write(line)
 

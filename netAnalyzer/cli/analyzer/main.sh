@@ -26,7 +26,7 @@ if [[ $1 ]]; then
     nmap -sn "$1" -oX $REPORT_DIR/nmap-hosts.xml;
     parse
 else
-    for start in $(seq 0 5 255); 
+    for start in $(seq 0 5 250); 
 
     do
         end=$((start+5))
