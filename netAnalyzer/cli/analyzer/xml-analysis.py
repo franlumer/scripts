@@ -65,10 +65,13 @@ for host in hosts:
 
 	for port in port_list:
 		if port.get("state", {}).get("@state") == "open":
+			service = port.get("service", {})
 			ports_list.append({
-				"port": port.get("@portid"),
-				"service": port.get("service", {}).get("@name", "unknown"),
-				"status": port.get("state", {}).get("@state")
+				"port":    port.get("@portid"),
+				"service": service.get("@name", "unknown"),
+				"product": service.get("@product", ""),
+				"version": service.get("@version", ""),
+				"status":  port.get("state", {}).get("@state")
 			})
 
 	if ip and ip not in seen:
@@ -110,21 +113,24 @@ def report_host(IP: str, PORTS: list):
 #	report_host(IP, open_ports)
 
 
-def analyze_host(IP: str, PORTS: list, STATUS: str):
+def analyze_host(IP: str, PORTS: list):
+    open_ports = []
+    for p in PORTS:
+        port    = p['port']
+        service = p.get('service', 'unknown')
+        product = p.get('product', '')
+        version = p.get('version', '')
+        status  = p.get('status', 'unknown')
 
-	port_service_map = {
-		p['port']: p.get('service', 'unknown')
-		for p in PORTS
-	}
+        # Combina product + version si están disponibles
+        ver_str = f" ({product} {version})".strip(" ()") 
+        ver_str = f"({ver_str})" if ver_str else ""
 
-	open_ports = []
+        open_ports.append(f"{port}/{service}{ver_str}/{status}")
+    report_host(IP, open_ports)
 
-	for port, service, status in port_service_map.items():
-		open_ports.append(f"{port}/{service}/{status}")
-
-	report_host(IP, open_ports)
 
 # ==========================================================================================
 
 for host in class_hosts:
-	analyze_host(host.ip, host.ports, host.status)
+	analyze_host(host.ip, host.ports)
