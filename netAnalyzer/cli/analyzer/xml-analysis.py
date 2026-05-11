@@ -2,6 +2,7 @@ import xmltodict
 import sys
 
 REPORT_DIR = sys.argv[1]
+REPORT_LOG = f"{REPORT_DIR}/{sys.argv[2]}.log"
 
 dangerous_ports = []
 
@@ -86,8 +87,13 @@ for host in hosts:
 # 	PORTS  (list(dict)) 
 
 def report_host(IP: str, PORTS: list):
+	
 	if PORTS:
+		line = f'HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n'
 		print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
+		with open(f"{REPORT_LOG}", "a") as log:
+			log.write(line)
+
 
 
 #def analyze_host(IP: str, PORTS: list):

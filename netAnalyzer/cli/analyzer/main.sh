@@ -19,7 +19,7 @@ function parse () {
     # escaneo los puertos de los hosts -> ports.xml
     sudo nmap -Pn -sSV --top-ports 100 -iL $REPORT_DIR/up-hosts.txt -oX $REPORT_DIR/nmap-ports.xml
 
-    python3 xml-analysis.py $REPORT_DIR >> $REPORT_DIR/"$DATE|$TIME.log"
+    python3 xml-analysis.py $REPORT_DIR "$DATE|$TIME"
 }
 
 if [[ $1 ]]; then
