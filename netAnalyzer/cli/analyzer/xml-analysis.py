@@ -2,7 +2,15 @@ import xmltodict
 import sys
 
 REPORT_DIR = sys.argv[1]
-REPORT_LOG = f"{REPORT_DIR}/{sys.argv[2]}.log"
+TIME = sys.argv[2]
+IP_RANGE = sys.argv[3]
+
+IP = sys.argv[3].split(".")
+for part in IP:
+	if "-" in part:
+		RANGE = part
+
+REPORT_LOG = f"{REPORT_DIR}/{TIME}|{RANGE}.log"
 
 dangerous_ports = []
 
