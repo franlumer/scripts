@@ -2,7 +2,9 @@
 
 DATE=$(date +%y-%m-%d)
 TIME=$(date +%H:%M:%S)
-REPORT_DIR=../data/"$DATE-logs"
+REPORT_DIR=$PWD/net-data/"$DATE-logs"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 mkdir -p $REPORT_DIR
 
 # nmap-hosts.xml
@@ -19,7 +21,7 @@ function parse () {
     # escaneo los puertos de los hosts -> ports.xml
     sudo nmap -Pn -sSV --top-ports 100 -iL $REPORT_DIR/up-hosts.txt -oX $REPORT_DIR/nmap-ports.xml
 
-    python3 xml-analysis.py $REPORT_DIR "$TIME" $1
+    python3 "$SCRIPT_DIR/xml-analysis.py" $REPORT_DIR "$TIME" $1
 }
 
 if [[ $1 ]]; then
