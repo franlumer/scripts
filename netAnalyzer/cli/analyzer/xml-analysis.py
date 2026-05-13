@@ -1,20 +1,26 @@
 import xmltodict
 import sys
+import os
 
 REPORT_DIR = sys.argv[1]
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME = sys.argv[2]
-IP_RANGE = sys.argv[3]
+IP_RANGE = sys.argv[3] if len(sys.argv) > 3 else ""
 
-IP = sys.argv[3].split(".")
-for part in IP:
-	if "-" in part:
-		RANGE = part
+IP_RANGE = sys.argv[3].split(".")
+
+RANGE = "Unknown"
+if IP_RANGE:
+	for part in IP_RANGE:
+		if "-" in part:
+			RANGE = part
+			break
 
 REPORT_LOG = f"{REPORT_DIR}/{TIME}|{RANGE}.log"
 
 dangerous_ports = []
 
-with open('dangerous-ports.txt', 'r') as dports:
+with open(f'{SCRIPT_DIR}/dangerous-ports.txt', 'r') as dports:
 	dports_file = dports.read().splitlines()
 	for port in dports_file:
 		dangerous_ports.append(port)

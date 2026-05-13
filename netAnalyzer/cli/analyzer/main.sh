@@ -26,7 +26,7 @@ function parse () {
 
 if [[ $1 ]]; then
     nmap -sn "$1" -oX $REPORT_DIR/nmap-hosts.xml;
-    parse
+    parse "$1"
 else
     for start in $(seq 0 5 250); 
 
@@ -34,7 +34,7 @@ else
         end=$((start+5))
         # discovery de hosts -> nmap-hosts.xml
         nmap -sn 192.168.$start-$end.1/24 -oX $REPORT_DIR/nmap-hosts.xml
-        parse
+        parse "192.168.$start-$end.1/24"
     done
 fi
 
