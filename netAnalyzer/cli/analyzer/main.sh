@@ -25,10 +25,10 @@ function parse () {
 }
 
 if [[ $1 ]]; then
-    nmap -sn "$1" -oX $REPORT_DIR/nmap-hosts.xml;
+    nmap -sn $1 -oX $REPORT_DIR/nmap-hosts.xml;
     parse "$1"
 else
-    for start in $(seq 0 5 250); 
+    for start in $(seq 0 5 250);
 
     do
         end=$((start+5))
