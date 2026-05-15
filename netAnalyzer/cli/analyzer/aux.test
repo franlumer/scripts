@@ -1,0 +1,3 @@
+1 - Hay que cambiar la cantidad de hosts que analiza cada vuelta del bucle, se montan los hosts.
+2 - Hay que cambiar de lugar el echo, se ejecuta en cada vuelta del bucle
+3 - Considerear el caso de que se ingresen rangos de IP que no vayan de 5 en 5.

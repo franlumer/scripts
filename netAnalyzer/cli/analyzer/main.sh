@@ -5,7 +5,7 @@ TIME=$(date +%H:%M:%S)
 REPORT_DIR=$PWD/net-data/"$DATE-logs"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-mkdir -p $REPORT_DIR
+mkdir -p $REPORT_DIR  
 
 # nmap-hosts.xml
 # up-hosts.txt
