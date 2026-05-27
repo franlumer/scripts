@@ -30,7 +30,7 @@ class Host:
 		self.ip = ip
 		self.mac = mac
 		self.ports = ports
-		
+
 
 def make_list(object):
 	if object is None:
@@ -102,12 +102,12 @@ for host in hosts:
 # 	PORTS  (list(dict)) 
 
 def report_host(IP: str, PORTS: list):
-	
 	if PORTS:
-		line = f'HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n'
-		#print(f'''HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n''')
-		with open(f"{REPORT_LOG}", "a") as log:
-			log.write(line)
+        	line = f'HOST:    {IP}\nPuertos: {", ".join(map(str, PORTS))}\n'
+	else:
+		line = f'HOST:    {IP}\nPuertos: --\n'
+	with open(f"{REPORT_LOG}", "a") as log:
+		log.write(line)
 
 
 
