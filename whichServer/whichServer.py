@@ -9,13 +9,18 @@ try:
     servers_file = Path.home() / 'scripts' / 'servers.txt'
     found = False
     
-    with open (servers_file, 'r') as SERVERS:  
-        lines = SERVERS.readlines()
-        for line in lines:
-            IP, HOSTNAME = line.strip().split(' - ')
-            if SEARCH == IP:
-                print(f'[+] {SEARCH} -> {HOSTNAME}')
-                found = True
+    with open (servers_file, 'r') as SERVERS:
+            lines = SERVERS.readlines()
+            for line in lines:
+                IP, HOSTNAME = line.strip().split(' - ')
+                if SEARCH == 'all':
+                    print(f'[+] {IP} -> {HOSTNAME}')
+                    found = True
+
+                else:
+                    if SEARCH == IP:
+                        print(f'[+] {SEARCH} -> {HOSTNAME}')
+                        found = True
 
     if not found: 
         print('[!] Server not found')
